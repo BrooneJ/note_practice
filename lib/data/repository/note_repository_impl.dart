@@ -9,7 +9,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
   @override
   Future<void> deleteNote(Note note) async {
-    await db.deleteNoteById(note);
+    await db.deleteNote(note);
   }
 
   @override
