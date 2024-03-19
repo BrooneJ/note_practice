@@ -38,7 +38,7 @@ class NoteDBHelper {
     );
   }
 
-  Future<void> deleteNoteById(Note note) async {
+  Future<void> deleteNote(Note note) async {
     await db.delete(
       'notes',
       where: 'id = ?',
