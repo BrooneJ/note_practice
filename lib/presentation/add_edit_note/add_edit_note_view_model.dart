@@ -31,6 +31,12 @@ class AddEditNoteViewModel with ChangeNotifier {
   }
 
   void _saveNote(int? id, String title, String content) async {
+    if (title.isEmpty || content.isEmpty) {
+      _eventController.add(
+          AddEditNoteUiEvent.showSnackBar('Title and content cannot be empty'));
+      return;
+    }
+
     if (id == null) {
       await repository.insertNote(
         Note(
