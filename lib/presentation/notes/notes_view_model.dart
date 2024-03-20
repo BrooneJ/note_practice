@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/foundation.dart';
 import 'package:note_app/domain/models/note.dart';
 import 'package:note_app/domain/repository/note_repository.dart';
