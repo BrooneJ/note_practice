@@ -49,7 +49,7 @@ class NoteItem extends StatelessWidget {
             right: 8,
             bottom: 8,
             child: IconButton(
-              onPressed: onDeleteTap?.call(),
+              onPressed: () => onDeleteTap?.call(),
               icon: const Icon(Icons.delete),
             ),
           ),

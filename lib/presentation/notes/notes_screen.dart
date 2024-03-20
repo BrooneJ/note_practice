@@ -48,13 +48,23 @@ class NotesScreen extends StatelessWidget {
         child: ListView(
           children: state.notes
               .map(
-                (e) => NoteItem(
-                  note: Note(
-                    title: e.title,
-                    content: e.content,
-                    color: e.color,
-                    timestamp: DateTime.now().microsecondsSinceEpoch,
-                  ),
+                (note) => NoteItem(
+                  note: note,
+                  onDeleteTap: () {
+                    viewModel.onEvent(NotesEvent.deleteNote(note));
+
+                    final snackBar = SnackBar(
+                      content: const Text("Note deleted"),
+                      action: SnackBarAction(
+                        label: "Undo",
+                        onPressed: () {
+                          viewModel.onEvent(NotesEvent.restoreNote());
+                        },
+                      ),
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
                 ),
               )
               .toList(),
