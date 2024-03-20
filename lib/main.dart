@@ -42,6 +42,15 @@ class MyApp extends StatelessWidget {
           backgroundColor: darkGray,
           foregroundColor: Colors.white,
         ),
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(
+            fontSize: 40,
+            color: Colors.white,
+          ),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.all(Colors.white),
+        ),
       ),
       home: const NotesScreen(),
     );

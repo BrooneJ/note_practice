@@ -28,6 +28,7 @@ class NotesViewModel with ChangeNotifier {
       loadNotes: _loadNotes,
       deleteNote: _deleteNote,
       restoreNote: restoreNote,
+      changeOrder: _changeOrder,
     );
   }
 
@@ -49,5 +50,10 @@ class NotesViewModel with ChangeNotifier {
       _recentlyDeletedNote = null;
       await _loadNotes();
     }
+  }
+
+  Future<void> _changeOrder(NoteOrder noteOrder) async {
+    _state = state.copyWith(noteOrder: noteOrder);
+    await _loadNotes();
   }
 }

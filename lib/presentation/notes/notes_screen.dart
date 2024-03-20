@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_app/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:note_app/presentation/notes/components/note_item.dart';
+import 'package:note_app/presentation/notes/components/order_section.dart';
 import 'package:note_app/presentation/notes/notes_event.dart';
 import 'package:note_app/presentation/notes/notes_view_model.dart';
 import 'package:provider/provider.dart';
@@ -45,42 +46,48 @@ class NotesScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListView(
-          children: state.notes
-              .map(
-                (note) => GestureDetector(
-                  onTap: () async {
-                    bool? isSaved = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddEditNoteScreen(note: note),
+          children: [
+            OrderSection(
+              noteOrder: state.noteOrder,
+              onOrderChanged: (noteOrder) {
+                viewModel.onEvent(NotesEvent.changeOrder(noteOrder));
+              },
+            ),
+            ...state.notes.map(
+              (note) => GestureDetector(
+                onTap: () async {
+                  bool? isSaved = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddEditNoteScreen(note: note),
+                    ),
+                  );
+
+                  if (isSaved != null && isSaved) {
+                    viewModel.onEvent(NotesEvent.loadNotes());
+                  }
+                },
+                child: NoteItem(
+                  note: note,
+                  onDeleteTap: () {
+                    viewModel.onEvent(NotesEvent.deleteNote(note));
+
+                    final snackBar = SnackBar(
+                      content: const Text("Note deleted"),
+                      action: SnackBarAction(
+                        label: "Undo",
+                        onPressed: () {
+                          viewModel.onEvent(NotesEvent.restoreNote());
+                        },
                       ),
                     );
 
-                    if (isSaved != null && isSaved) {
-                      viewModel.onEvent(NotesEvent.loadNotes());
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   },
-                  child: NoteItem(
-                    note: note,
-                    onDeleteTap: () {
-                      viewModel.onEvent(NotesEvent.deleteNote(note));
-
-                      final snackBar = SnackBar(
-                        content: const Text("Note deleted"),
-                        action: SnackBarAction(
-                          label: "Undo",
-                          onPressed: () {
-                            viewModel.onEvent(NotesEvent.restoreNote());
-                          },
-                        ),
-                      );
-
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                  ),
                 ),
-              )
-              .toList(),
+              ),
+            ),
+          ],
         ),
       ),
     );

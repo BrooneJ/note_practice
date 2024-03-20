@@ -24,6 +24,8 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
   final TextEditingController _contentController = TextEditingController();
   StreamSubscription? _streamSubscription;
 
+  int selectedColor = roseBud.value;
+
   final List<Color> noteColors = [
     roseBud,
     primrose,
@@ -37,6 +39,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
     super.initState();
 
     if (widget.note != null) {
+      selectedColor = widget.note!.color;
       _titleController.text = widget.note!.title;
       _contentController.text = widget.note!.content;
     }
@@ -85,7 +88,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
       body: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.all(16),
-        color: Color(viewModel.color),
+        color: Color(selectedColor),
         child: SafeArea(
           child: Column(
             children: [
