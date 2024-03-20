@@ -68,6 +68,7 @@ class _AddEditNoteScreenState extends State<AddEditNoteScreen> {
               content: Text('Please fill in the title and content'),
             );
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            return;
           }
 
           viewModel.onEvent(
