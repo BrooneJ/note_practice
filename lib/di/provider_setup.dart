@@ -1,6 +1,12 @@
 import 'package:note_app/data/data_source/note_db_helper.dart';
 import 'package:note_app/data/repository/note_repository_impl.dart';
 import 'package:note_app/domain/repository/note_repository.dart';
+import 'package:note_app/domain/use_case/add_note.dart';
+import 'package:note_app/domain/use_case/delete_note.dart';
+import 'package:note_app/domain/use_case/get_note.dart';
+import 'package:note_app/domain/use_case/get_notes.dart';
+import 'package:note_app/domain/use_case/update_note.dart';
+import 'package:note_app/domain/use_case/use_cases.dart';
 import 'package:note_app/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:note_app/presentation/notes/notes_view_model.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +26,14 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   NoteDBHelper noteDBHelper = NoteDBHelper(database);
   NoteRepository noteRepository = NoteRepositoryImpl(noteDBHelper);
-  NotesViewModel notesViewModel = NotesViewModel(noteRepository);
+  UseCases useCases = UseCases(
+    getNotes: GetNotesUseCase(noteRepository),
+    getNote: GetNoteUseCase(noteRepository),
+    addNote: AddNoteUseCase(noteRepository),
+    updateNote: UpdateNoteUseCase(noteRepository),
+    deleteNote: DeleteNoteUseCase(noteRepository),
+  );
+  NotesViewModel notesViewModel = NotesViewModel(useCases: useCases);
   AddEditNoteViewModel addEditNoteViewModel =
       AddEditNoteViewModel(noteRepository);
 
