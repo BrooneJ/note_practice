@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:note_app/presentation/add_edit_note/add_edit_note_screen.dart';
 import 'package:note_app/presentation/notes/components/note_item.dart';
 import 'package:note_app/presentation/notes/components/order_section.dart';
@@ -23,7 +24,9 @@ class NotesScreen extends StatelessWidget {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              viewModel.onEvent(NotesEvent.toggleOrderSection());
+            },
             icon: const Icon(Icons.sort),
           ),
         ],
@@ -47,11 +50,16 @@ class NotesScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            OrderSection(
-              noteOrder: state.noteOrder,
-              onOrderChanged: (noteOrder) {
-                viewModel.onEvent(NotesEvent.changeOrder(noteOrder));
-              },
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: state.isOrderSectionVisible
+                  ? OrderSection(
+                      noteOrder: state.noteOrder,
+                      onOrderChanged: (noteOrder) {
+                        viewModel.onEvent(NotesEvent.changeOrder(noteOrder));
+                      },
+                    )
+                  : Container(),
             ),
             ...state.notes.map(
               (note) => GestureDetector(

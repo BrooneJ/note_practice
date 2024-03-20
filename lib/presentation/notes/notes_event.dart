@@ -10,4 +10,5 @@ class NotesEvent<T> with _$NotesEvent<T> {
   factory NotesEvent.deleteNote(Note note) = DeleteNote;
   factory NotesEvent.restoreNote() = RestoreNote;
   factory NotesEvent.changeOrder(NoteOrder noteOrder) = ChangeOrder;
+  factory NotesEvent.toggleOrderSection() = ToggleOrderSection;
 }
