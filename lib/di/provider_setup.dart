@@ -7,7 +7,6 @@ import 'package:note_app/domain/use_case/get_note.dart';
 import 'package:note_app/domain/use_case/get_notes.dart';
 import 'package:note_app/domain/use_case/update_note.dart';
 import 'package:note_app/domain/use_case/use_cases.dart';
-import 'package:note_app/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:note_app/presentation/notes/notes_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -34,11 +33,9 @@ Future<List<SingleChildWidget>> getProviders() async {
     deleteNote: DeleteNoteUseCase(noteRepository),
   );
   NotesViewModel notesViewModel = NotesViewModel(useCases: useCases);
-  AddEditNoteViewModel addEditNoteViewModel =
-      AddEditNoteViewModel(noteRepository);
 
   return [
     ChangeNotifierProvider(create: (context) => notesViewModel),
-    ChangeNotifierProvider(create: (context) => addEditNoteViewModel),
+    Provider(create: (context) => noteRepository),
   ];
 }

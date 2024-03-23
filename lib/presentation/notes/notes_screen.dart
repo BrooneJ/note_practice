@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:note_app/domain/repository/note_repository.dart';
 import 'package:note_app/presentation/add_edit_note/add_edit_note_screen.dart';
+import 'package:note_app/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:note_app/presentation/notes/components/note_item.dart';
 import 'package:note_app/presentation/notes/components/order_section.dart';
 import 'package:note_app/presentation/notes/notes_event.dart';
@@ -35,9 +37,14 @@ class NotesScreen extends StatelessWidget {
         onPressed: () async {
           bool? isSaved = await Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const AddEditNoteScreen(),
-            ),
+            MaterialPageRoute(builder: (context) {
+              final repository = context.read<NoteRepository>();
+              final viewModel = AddEditNoteViewModel(repository);
+              return ChangeNotifierProvider(
+                create: (_) => viewModel,
+                child: const AddEditNoteScreen(),
+              );
+            }),
           );
 
           if (isSaved != null && isSaved) {
@@ -67,7 +74,14 @@ class NotesScreen extends StatelessWidget {
                   bool? isSaved = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => AddEditNoteScreen(note: note),
+                      builder: (context) {
+                        final repository = context.read<NoteRepository>();
+                        final viewModel = AddEditNoteViewModel(repository);
+                        return ChangeNotifierProvider(
+                          create: (_) => viewModel,
+                          child: AddEditNoteScreen(note: note),
+                        );
+                      },
                     ),
                   );
 
