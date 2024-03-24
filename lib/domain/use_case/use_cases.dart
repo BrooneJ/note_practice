@@ -1,9 +1,11 @@
+import 'package:injectable/injectable.dart';
 import 'package:note_app/domain/use_case/add_note.dart';
 import 'package:note_app/domain/use_case/delete_note.dart';
 import 'package:note_app/domain/use_case/get_note.dart';
 import 'package:note_app/domain/use_case/get_notes.dart';
 import 'package:note_app/domain/use_case/update_note.dart';
 
+@singleton
 class UseCases {
   final AddNoteUseCase addNote;
   final DeleteNoteUseCase deleteNote;

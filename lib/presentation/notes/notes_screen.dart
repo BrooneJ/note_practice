@@ -1,11 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:note_app/domain/repository/note_repository.dart';
-import 'package:note_app/presentation/add_edit_note/add_edit_note_screen.dart';
-import 'package:note_app/presentation/add_edit_note/add_edit_note_view_model.dart';
 import 'package:note_app/presentation/notes/components/note_item.dart';
 import 'package:note_app/presentation/notes/components/order_section.dart';
 import 'package:note_app/presentation/notes/notes_event.dart';
