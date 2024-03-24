@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -62,18 +64,14 @@ class NotesScreen extends StatelessWidget {
             ...state.notes.map(
               (note) => GestureDetector(
                 onTap: () async {
-                  bool? isSaved = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        final repository = context.read<NoteRepository>();
-                        final viewModel = AddEditNoteViewModel(repository);
-                        return ChangeNotifierProvider(
-                          create: (_) => viewModel,
-                          child: AddEditNoteScreen(note: note),
-                        );
-                      },
-                    ),
+                  final uri = Uri(
+                    path: '/edit_note',
+                    queryParameters: {
+                      'note': jsonEncode(note.toJson()),
+                    },
+                  );
+                  bool? isSaved = await context.push(
+                    uri.toString(),
                   );
 
                   if (isSaved != null && isSaved) {
