@@ -6,7 +6,7 @@ import 'package:note_app/ui/colors.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  configureDependencies();
+  await configureDependencies();
   runApp(const MyApp());
 }
 
